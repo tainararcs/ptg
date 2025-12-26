@@ -1,0 +1,218 @@
+@charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Conteúdo principal */
+body > *:not(nav) {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+}
+
+main {
+    flex: 1;
+    padding: 0;
+}
+
+/* Sidebar */
+nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: linear-gradient(180deg, var(--primary-blue-darker) 0%, var(--primary-blue-dark) 100%);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    z-index: 1000;
+    overflow-y: auto;
+    animation: slideIn 0.4s ease-out;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-section {
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Logo */
+.sidebar-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    text-align: center;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Links */
+.menu-item a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.menu-item a:hover {
+    color: var(--white);
+    transform: translateX(6px);
+}
+
+/* Link ativo */
+.menu-item a.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Menu hamburguer */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-blue-light) 0%, var(--primary-blue) 100%);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+.menu-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-xl);
+}
+
+.menu-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Rodapé */
+.main-footer {
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    margin: 6.5rem auto 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+.footer-title {
+    display: none;
+}
+
+.footer-text {
+	color: var(--white);
+    font-size: 0.68rem;
+    margin: 0;
+}
+
+.footer-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Animação de entrada de itens */
+.menu-item {
+    animation: fadeIn 0.5s ease-out backwards;
+}
+
+.menu-item:nth-of-type(1) { animation-delay: 0.1s; }
+.menu-item:nth-of-type(2) { animation-delay: 0.15s; }
+.menu-item:nth-of-type(3) { animation-delay: 0.2s; }
+.menu-item:nth-of-type(4) { animation-delay: 0.25s; }
+.menu-item:nth-of-type(5) { animation-delay: 0.3s; }
+.menu-item:nth-of-type(6) { animation-delay: 0.35s; }
+
+
+/* Tablet */
+@media (max-width: 1024px) {
+    :root {
+        --sidebar-width: 240px;
+    }
+    
+    nav {
+        width: var(--sidebar-width);
+        padding: var(--spacing-lg);
+    }
+    
+    nav a {
+        font-size: 0.875rem;
+        padding: var(--spacing-md);
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    nav {
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+        width: 280px;
+    }
+    
+    nav.active {
+        transform: translateX(0);
+    }
+    
+    body > *:not(nav):not(.menu-toggle) {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    /* Overlay para fechar o menu */
+    body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition-normal);
+        z-index: 999;
+    }
+    
+    body.menu-open::after {
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    body.menu-open {
+        overflow: hidden;
+    }
+}
