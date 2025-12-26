@@ -93,7 +93,6 @@ Antes de compilar e executar o PTG localmente, certifique-se de ter instalado e 
 - **PostgreSQL 12+**  
 - **Driver JDBC PostgreSQL**  
 
----
 
 ### - Estrutura de Pastas
 
@@ -108,26 +107,15 @@ ptg/
 │       ├── java/              # Código-fonte Java
 │       │   └── com/ptg/
 │       │       ├── controller/    # Controladores Spring MVC
+│       │       ├── dao/           # Camada de acesso a dados
+│       │       ├── filter/        # Filtro web
+│       │       ├── logic/         # Lógica de negócios
 │       │       ├── model/         # Entidades JPA
-│       │       ├── repository/    # Camada de acesso a dados
-│       │       ├── service/       # Lógica de negócios
-│       │       ├── dto/           # Data Transfer Objects
 │       │       ├── config/        # Configurações da aplicação
-│       │       └── util/          # Classes utilitárias
-│       ├── resources/         # Recursos da aplicação
-│       │   ├── application.properties
-│       │   ├── messages.properties
-│       │   └── static/
-│       │       ├── css/
-│       │       ├── js/
-│       │       └── images/
+│       │       └── utils/         # Classes utilitárias
 │       └── webapp/            # Recursos web
 │           ├── WEB-INF/
 │           │   ├── views/        # Páginas JSP
-│           │   │   ├── question/
-│           │   │   ├── test/
-│           │   │   ├── user/
-│           │   │   └── report/
 │           │   ├── web.xml       # Descritor de deployment
 │           │   └── spring-config.xml
 │           └── resources/
@@ -204,13 +192,9 @@ O PTG segue o padrão arquitetural **MVC (Model-View-Controller)** com separaç�
 ### - Instalação e Configuração
 
 #### 1. Clone o Repositório
-
 #### 2. Crie um banco de dados PostgreSQL (Database: ptg)
-
 #### 3. Configure as Propriedades da Aplicação no arquivo `persistence.xml`:
-
 #### 4. Compile o Projeto
-
 #### 5. Acesse a Aplicação (http://localhost:8080/PraticeTestGenerator)
 
 
@@ -218,34 +202,7 @@ O PTG segue o padrão arquitetural **MVC (Model-View-Controller)** com separaç�
 
 1. **Cliente** faz uma requisição HTTP (ex: submeter uma prova)
 2. **Controller** recebe a requisição e valida os dados
-3. **Service** aplica regras de negócio (ex: calcular pontuação)
+3. **Logic/Service** aplica regras de negócio (ex: calcular pontuação)
 4. **Repository** persiste/recupera dados do banco
 5. **Model** representa as entidades (Question, Test, User, Result)
 6. **View** renderiza a resposta (JSP) e envia ao cliente
-
-
-### - Como Usar
-
-#### Para Administradores
-
-#### 1. Criar Questões
-1. Acesse  **Cadastrar Questão**
-2. Preencha o enunciado e alternativas
-3. Marque a resposta correta
-4. Adicione observações (opcional)
-5. Salve a questão
-
-#### 2. Visualizar Relatórios
-1. Acesse **Gerar Relatório**
-2. Exporte em PDF se necessário
-
-### Para Estudantes
-
-#### 1. Realizar um Teste
-1. Faça login no sistema
-2. Acesse **Gerar Teste**
-3. Escolha a **Disciplina**, **Matéra**, **Série** e **Bimestre** 
-4. Responda as questões
-6. Clique em **Corrigir** ao terminar
-
-
