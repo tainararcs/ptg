@@ -6,7 +6,7 @@ import java.util.Map;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaQuery;
 
-public class DAO<T> { // "Implementação do hibernate"?
+public class DAO<T> {
 	
 	/**
 	 * 
@@ -42,6 +42,21 @@ public class DAO<T> { // "Implementação do hibernate"?
 	    EntityManager em = new JPAUtil().getEntityManager();
 	    try {
 	    	return em.find(currentClass, id);
+	    } finally {
+	        em.close();
+	    }
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public T findByName(String name) {
+		EntityManager em = new JPAUtil().getEntityManager();
+	    try {
+	        String jpql = "SELECT e FROM " + currentClass.getSimpleName() + " e WHERE e.name = :name";
+	        return em.createQuery(jpql, currentClass).setParameter("name", name).getResultStream().findFirst().orElse(null);
 	    } finally {
 	        em.close();
 	    }

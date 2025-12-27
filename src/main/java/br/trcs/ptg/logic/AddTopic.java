@@ -30,7 +30,15 @@ public class AddTopic implements Logic {
         // Validação simples.
         if (name == null || name.isBlank() || grade == null || bimester == null || subjectId == null) {
             request.setAttribute(Consts.ERROR, "Preencha todos os campos");
-            return Consts.ADD_SUBJECT_PAGE;
+            return Consts.ADD_TOPIC_PAGE;
+        }
+        
+        DAO<Topic> dao = new DAO<Topic>(Topic.class);
+
+        // Confere se a matéria já existe.
+        if (dao.findByName(name) != null) {
+        	request.setAttribute(Consts.ERROR, "Matéria já cadastrada");
+            return Consts.ADD_TOPIC_PAGE; 
         }
         
         // 
@@ -42,11 +50,10 @@ public class AddTopic implements Logic {
         topic.setGrade(grade);
         topic.setBimester(bimester);
         topic.setSubjectId(subject);
-
-        DAO<Topic> dao = new DAO<Topic>(Topic.class);
+        
         dao.insert(topic);
         
-        request.getSession().setAttribute(Consts.MSG, "Matéria cadastrada com sucesso");
-        return Consts.REDIRECT_ADD_TOPIC_PAGE;
+        request.setAttribute(Consts.MSG, "Matéria cadastrada com sucesso");
+        return Consts.ADD_TOPIC_PAGE;
 	}
 }

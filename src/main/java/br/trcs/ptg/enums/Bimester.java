@@ -9,19 +9,15 @@ public enum Bimester {
 	
 	private String bimester;
 
-	
 	private Bimester(String bimester) {
 		this.bimester = bimester;
 	}
 
+	public String getBimester() {
+		return bimester;
+	}
 
-//	public String getBimester() {
-//		return bimester;
-//	}
-//
-//	// Método para obter o nome legível
-//    @Override
-//    public String toString() {
-//        return super.toString().toLowerCase(); 
-//    }
+	public void setBimester(String bimester) {
+		this.bimester = bimester;
+	}
 }

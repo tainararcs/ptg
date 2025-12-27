@@ -23,14 +23,21 @@ public class AddSubject implements Logic {
 
         // Validação simples
         if (name == null || name.isBlank()) {
-            request.setAttribute(Consts.ERROR, "Nome da matéria é obrigatório");
+            request.setAttribute(Consts.ERROR, "Preencha todos os campos");
             return Consts.ADD_SUBJECT_PAGE; 
         }
+        
+        DAO<Subject> dao = new DAO<Subject>(Subject.class);
 
+        // Confere se a disciplina já existe
+        if (dao.findByName(name) != null) {
+        	request.setAttribute(Consts.ERROR, "Disciplina já cadastrada");
+            return Consts.ADD_SUBJECT_PAGE; 
+        }
+        
         Subject subject = new Subject();
         subject.setName(name);
-
-        DAO<Subject> dao = new DAO<Subject>(Subject.class);
+       
         dao.insert(subject);
 
         request.setAttribute(Consts.MSG, "Disciplina cadastrada com sucesso");

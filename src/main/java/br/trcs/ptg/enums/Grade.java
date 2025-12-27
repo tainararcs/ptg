@@ -11,17 +11,14 @@ public enum Grade {
 
 	
 	private Grade(String grade) {
-		this.grade = grade;
+		this.setGrade(grade);
 	}
 
-//
-//	public String getGrade() {
-//		return grade;
-//	}	
-//	
-//	// Método para obter o nome legível
-//    @Override
-//    public String toString() {
-//        return super.toString().toLowerCase(); 
-//    }
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
 }

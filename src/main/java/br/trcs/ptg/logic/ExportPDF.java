@@ -26,7 +26,7 @@ public class ExportPDF implements Logic {
 
     private static final String[] HEADER = {"Data", "Usuário", "Disciplina", "Bimestre", "Acertos", "%"};
 
-    private static final float[] COL_X = {50, 120, 240, 380, 440, 500};
+    private static final float[] COL_X = {50, 120, 220, 300, 410, 480};
 
     @Override
     public String service(HttpServletRequest request, HttpServletResponse response) throws IOException {

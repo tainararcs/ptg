@@ -30,7 +30,7 @@
 		<h2>Relatório de Testes</h2>
 
 		<c:choose>
-		    <c:when test="${empty tests}"><p>Nenhum teste realizado.</p></c:when>
+		    <c:when test="${empty tests}"><p>Nenhum teste realizado</p></c:when>
 		    <c:otherwise>
 		        <table cellpadding="5">
 		            <thead>

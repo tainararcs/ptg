@@ -487,7 +487,6 @@ body > p,
     color: var(--gray-600);
     text-align: center;
     padding: var(--spacing-lg);
-    font-style: italic;
 }
 
 /* Resultado do teste */
