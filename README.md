@@ -50,9 +50,9 @@ Este projeto é construído como **aplicação web tradicional “WAR”** empac
 | **Java** | 22 | Linguagem base do projeto |
 | Java Servlet API | 6.0.0 | Especificação para aplicações web Java |
 | **Spring Web MVC** | 7.0.1 | Framework MVC para desenvolvimento web |
-| Hibernate ORM | 6.2.7.Final | Framework de persistência JPA |
+| Hibernate ORM | 6.2.7 | Framework de persistência JPA |
 | Jakarta Persistence API | 3.2.0 | Especificação para persistência de dados |
-| Hibernate Commons Annotations | 6.0.6.Final | Anotações comuns do Hibernate |
+| Hibernate Commons Annotations | 6.0.6 | Anotações comuns do Hibernate |
 | Spring Validation | 3.1.2 | Validação de beans usando Spring (via spring-boot-starter-validation) |
 | EL API | 5.0.1 | Expressões para JSP/Servlet |
 | JSP API | 3.1.1 | Servlets Java Server Pages |
@@ -205,6 +205,12 @@ Senha: <sua_senha>
 ```
 #### 4. Execute o Projeto 
 #### 5. Acesse a Aplicação (http://localhost:8080/PraticeTestGenerator)
+
+| USERNAME |  SENHA  |
+|----------|---------|
+|  Mariana |  3333   |
+|   Maria  |  2222   |
+
 #### 6. Certifique-se de que as tabelas foram criadas pelo Hibernate
 #### 7. No terminal ou pgAdmin, execute o arquivo `database/backup.sql`:
 ```
