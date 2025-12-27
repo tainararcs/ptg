@@ -192,10 +192,24 @@ O PTG segue o padrão arquitetural **MVC (Model-View-Controller)** com separaç�
 ### - Instalação e Configuração
 
 #### 1. Clone o Repositório
-#### 2. Crie um banco de dados PostgreSQL (Database: ptg)
-#### 3. Configure as Propriedades da Aplicação no arquivo `persistence.xml`:
-#### 4. Compile o Projeto
+#### 2. Configure o servidor Tomcat
+#### 3. Crie um banco de dados PostgreSQL 
+```
+CREATE DATABASE ptg; 
+```
+#### 4. Configure as Propriedades da Aplicação no arquivo `persistence.xml`:
+```
+URL: jdbc:postgresql://localhost:5432/ptg
+Usuário: <seu_usuario>
+Senha: <sua_senha>
+```
+#### 4. Execute o Projeto 
 #### 5. Acesse a Aplicação (http://localhost:8080/PraticeTestGenerator)
+#### 6. Certifique-se de que as tabelas foram criadas pelo Hibernate
+#### 7. No terminal ou pgAdmin, execute o arquivo `database/backup.sql`:
+```
+psql -U <seu_usuario> -d ptg -f path/para/backup.sql
+```
 
 
 ### - Fluxo de uma Requisição
@@ -206,3 +220,54 @@ O PTG segue o padrão arquitetural **MVC (Model-View-Controller)** com separaç�
 4. **Repository** persiste/recupera dados do banco
 5. **Model** representa as entidades (Question, Test, User, Result)
 6. **View** renderiza a resposta (JSP) e envia ao cliente
+
+
+
+
+Como usar o backup.sql no README
+
+Criar o banco de dados
+No PostgreSQL, crie o banco com o nome ptg:
+
+CREATE DATABASE ptg;
+
+
+Configurar a aplicação
+
+Certifique-se de que as classes JPA/beans já estão mapeadas corretamente para as tabelas (User, Subject, Topic, Question, etc.).
+
+Ajuste o arquivo persistence.xml ou application.properties para conectar com:
+
+URL: jdbc:postgresql://localhost:5432/ptg
+Usuário: <seu_usuario>
+Senha: <sua_senha>
+
+
+Rodar a aplicação
+
+Compile e rode o WAR no servidor (Tomcat ou outro compatível).
+
+A aplicação vai criar automaticamente as tabelas se o Hibernate estiver configurado para update ou create.
+
+Rodar o backup.sql
+
+Depois que as tabelas existirem, rode o script backup.sql no banco ptg para popular com:
+
+Usuários
+
+Disciplinas e matérias
+
+Questões e alternativas
+
+Testes de exemplo
+
+No terminal ou no pgAdmin:
+
+psql -U seu_usuario -d ptg -f path/para/database/backup.sql
+
+
+Verificar dados
+
+Abra a aplicação e faça login com os usuários cadastrados (ex.: Mariana/1569984 como admin).
+
+Os dados das questões e testes já estarão disponíveis para uso.
