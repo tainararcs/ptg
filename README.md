@@ -50,9 +50,9 @@ Este projeto é construído como **aplicação web tradicional “WAR”** empac
 | **Java** | 22 | Linguagem base do projeto |
 | Java Servlet API | 6.0.0 | Especificação para aplicações web Java |
 | **Spring Web MVC** | 7.0.1 | Framework MVC para desenvolvimento web |
-| Hibernate ORM | 6.2.7.Final | Framework de persistência JPA |
+| Hibernate ORM | 6.2.7 | Framework de persistência JPA |
 | Jakarta Persistence API | 3.2.0 | Especificação para persistência de dados |
-| Hibernate Commons Annotations | 6.0.6.Final | Anotações comuns do Hibernate |
+| Hibernate Commons Annotations | 6.0.6 | Anotações comuns do Hibernate |
 | Spring Validation | 3.1.2 | Validação de beans usando Spring (via spring-boot-starter-validation) |
 | EL API | 5.0.1 | Expressões para JSP/Servlet |
 | JSP API | 3.1.1 | Servlets Java Server Pages |
