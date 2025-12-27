@@ -77,6 +77,20 @@
 	                <i class="bi bi-card-list"></i><span>Gerar Relatório</span>
 	            </a>
 	        </li>
+	        
+	        <c:if test="${user.profile != null and fn:toLowerCase(user.profile) eq 'admin'}">
+		        <li class="menu-item">
+		        	<a href="${pageContext.request.contextPath}/${Consts.SHOW_USER_PAGE}" class="card">
+		                <i class="bi bi-person-vcard"></i><span>Listar Usuários</span>
+		            </a>
+	            </li>
+	        </c:if>
+	        
+	        <li class="menu-item">
+		        <a href="${pageContext.request.contextPath}/${Consts.SHOW_QUESTION_PAGE}" class="card">
+		            <i class="bi bi-card-list"></i><span>Listar Questões</span>
+	            </a>
+	        </li>
 	    </ul>
 	
 	    <jsp:include page="${Consts.FOOTER_JSP}" />

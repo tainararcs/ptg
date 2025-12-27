@@ -60,6 +60,7 @@
 		                <h3>Cadastrar Usuário</h3>
 		                <p>Cadastre novos usuários e autorize o acesso à plataforma de estudos</p>
 		            </a>
+		            
 	            </c:if>
 	            
 		        <a href="${pageContext.request.contextPath}/${Consts.ACTION_PREPARE_TESTS}" class="card">
@@ -73,6 +74,20 @@
 		            <h3>Gerar Relatório</h3>
 		            <p>Visualize o desempenho e progresso através de relatórios dos testes realizados</p>
 		        </a>
+		        
+		        <c:if test="${user.profile != null and fn:toLowerCase(user.profile) eq 'admin'}">
+			        <a href="${pageContext.request.contextPath}/${Consts.SHOW_USER_PAGE}" class="card">
+			            <i class="bi bi-person-vcard"></i>
+		                <h3>Listar Usuários</h3>
+		                <p>Visualize todos os usuários cadastrados</p>
+		            </a>
+		        </c:if>
+		        
+		        <a href="${pageContext.request.contextPath}/${Consts.SHOW_QUESTION_PAGE}" class="card">
+		            <i class="bi bi-card-list"></i>
+	                <h3>Listar Questões</h3>
+	                <p>Visualize todas as questões cadastradas</p>
+	            </a>
 		    </section>
 		</main>
 		

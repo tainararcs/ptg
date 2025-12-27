@@ -3,13 +3,6 @@ package br.trcs.ptg.utils;
 
 /** 
 * Classe utilitária responsável por centralizar constantes utilizadas em toda a aplicação.
-*
-* O uso dessa classe evita:
-* - strings "hardcoded"
-* - duplicação de valores
-* - erros de digitação em nomes de páginas, ações e atributos
-*
-* Todos os campos são públicos, estáticos e imutáveis.
 */
 public class Consts {	
 	
@@ -58,6 +51,9 @@ public class Consts {
 	public static final String ADD_USER_PAGE = "adduser";
 	public static final String ADD_TEST_PAGE = "addtest";
 	public static final String SHOW_REPORT_PAGE = "showreport";
+	public static final String SHOW_USER_PAGE = "showusers";
+	public static final String SHOW_QUESTION_PAGE = "showquestions";
+	
   
 	/**
 	 *  Redirecionamentos
@@ -88,6 +84,8 @@ public class Consts {
 	public static final String GENERATE_TEST_LOGIC = "generateTest";
 	public static final String GENERATE_REPORT_LOGIC = "generateReport";
 	public static final String LIST_TOPIC_LOGIC = "listTopic";
+	public static final String LIST_USER_LOGIC = "listUsers";
+	public static final String LIST_QUESTION_LOGIC = "listQuestions";
 	public static final String LIST_SUBJECT_LOGIC = "listSubject";
 	public static final String PREPARE_TESTS_LOGIC = "prepareAddTests";
 	public static final String EXPORT_PDF_LOGIC = "exportPDF";
@@ -106,6 +104,8 @@ public class Consts {
 	public static final String ACTION_GENERATE_TEST = "action/generateTest";
 	public static final String ACTION_LIST_TOPIC = "action/listTopic";
 	public static final String ACTION_LIST_SUBJECT = "action/listSubject";
+	public static final String ACTION_LIST_USER = "action/listUsers";
+	public static final String ACTION_LIST_QUESTION = "action/listQuestions";
 	public static final String ACTION_PREPARE_TESTS = "action/prepareAddTests";
 	public static final String ACTION_EXPORT_PDF = "action/exportPDF";
 }

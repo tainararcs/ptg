@@ -1,6 +1,4 @@
-/**
- * 
- */// Função para abrir/fechar o menu mobile
+// Função para abrir/fechar o menu mobile.
 function toggleMenu() {
     const nav = document.querySelector('nav');
     const body = document.body;
@@ -18,13 +16,13 @@ function toggleMenu() {
     }
 }
 
-// Fecha o menu ao clicar no overlay (fundo escuro)
+// Fecha o menu ao clicar no overlay (fundo escuro).
 document.addEventListener('DOMContentLoaded', function() {
     document.body.addEventListener('click', function(e) {
         const nav = document.querySelector('nav');
         const menuToggle = document.querySelector('.menu-toggle');
         
-        // Se o menu está aberto e clicou fora do menu e do botão
+        // Se o menu está aberto e clicou fora do menu e do botão.
         if (nav.classList.contains('active') && 
             !nav.contains(e.target) && 
             !menuToggle.contains(e.target)) {
@@ -32,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Fecha o menu ao clicar em qualquer link
+    // Fecha o menu ao clicar em qualquer link.
     const menuLinks = document.querySelectorAll('nav a');
     menuLinks.forEach(link => {
         link.addEventListener('click', function() {
@@ -44,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Fecha o menu ao redimensionar para desktop
+// Fecha o menu ao redimensionar para desktop.
 window.addEventListener('resize', function() {
     if (window.innerWidth > 768) {
         const nav = document.querySelector('nav');

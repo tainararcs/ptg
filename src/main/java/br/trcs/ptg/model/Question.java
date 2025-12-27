@@ -2,6 +2,8 @@ package br.trcs.ptg.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +47,7 @@ public class Question {
      * - mappedBy: a chave estrangeira está no lado da entidade OptionsQuestion.
      */
     @OneToMany(mappedBy = "questionId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<OptionsQuestion> optionsList;
 
     /**
