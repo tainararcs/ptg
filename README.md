@@ -205,6 +205,12 @@ Senha: <sua_senha>
 ```
 #### 4. Execute o Projeto 
 #### 5. Acesse a Aplicação (http://localhost:8080/PraticeTestGenerator)
+
+| USERNAME |  SENHA  |
+|----------|---------|
+|  Mariana |  3333   |
+|   Maria  |  2222   |
+
 #### 6. Certifique-se de que as tabelas foram criadas pelo Hibernate
 #### 7. No terminal ou pgAdmin, execute o arquivo `database/backup.sql`:
 ```
