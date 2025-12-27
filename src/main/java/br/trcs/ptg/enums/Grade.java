@@ -1,24 +1,12 @@
 package br.trcs.ptg.enums;
 
+/**
+ * Enum que representa o ano/série escolar.
+ */
 public enum Grade {
 	
-	FIRST_GRADE("Primeiro ano"),
-	SECOND_GRADE("Segundo ano"),
-	THIRD_GRADE("Terceiro ano");
-	
-	
-	private String grade;
-
-	
-	private Grade(String grade) {
-		this.setGrade(grade);
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
+	// Anos escolares.
+	FIRST_GRADE,
+	SECOND_GRADE,
+	THIRD_GRADE;
 }

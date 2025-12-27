@@ -9,54 +9,106 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/**
+ * Entidade JPA que representa uma alternativa de resposta de uma questão.
+ */
 @Entity
 @Table(name = "options_question")
 public class OptionsQuestion {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(nullable = false, columnDefinition = "TEXT")
+
+    /**
+     * Identificador único da alternativa, com valor gerado automaticamente.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    /**
+     * Texto da alternativa.
+     */
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String text;
 
+    /**
+     * Indica se a alternativa é correta.
+     * true  -> alternativa correta
+     * false -> alternativa incorreta
+     */
     @Column(nullable = false)
     private Boolean correct;
 
+    /**
+     * Questão à qual esta alternativa pertence.
+     * Relacionamento muitos-para-um:
+     * várias alternativas pertencem à mesma questão.
+     */
     @ManyToOne(optional = false)
     @JoinColumn(name = "questionId", nullable = false)
     private Question questionId;
 
-	
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * @return id da alternativa.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * Define o identificador da alternativa.
+     *
+     * @param id identificador da alternativa.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getText() {
-		return text;
-	}
+    /**
+     * @return texto da alternativa.
+     */
+    public String getText() {
+        return text;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    /**
+     * Define o texto da alternativa.
+     *
+     * @param text texto da alternativa.
+     */
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public Boolean getCorrect() {
-		return correct;
-	}
+    /**
+     * Retorna se a alternativa é correta.
+     *
+     * @return true se correta, false caso contrário.
+     */
+    public Boolean getCorrect() {
+        return correct;
+    }
 
-	public void setCorrect(Boolean correct) {
-		this.correct = correct;
-	}
+    /**
+     * Define se a alternativa é correta.
+     *
+     * @param correct indicador de correção.
+     */
+    public void setCorrect(Boolean correct) {
+        this.correct = correct;
+    }
 
-	public Question getQuestionId() {
-		return questionId;
-	}
+    /**
+     * @return questão associada à alternativa.
+     */
+    public Question getQuestionId() {
+        return questionId;
+    }
 
-	public void setQuestionId(Question questionId) {
-		this.questionId = questionId;
-	}
+    /**
+     * Define a questão associada à alternativa.
+     *
+     * @param questionId questão.
+     */
+    public void setQuestionId(Question questionId) {
+        this.questionId = questionId;
+    }
 }

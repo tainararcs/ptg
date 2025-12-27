@@ -16,19 +16,26 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  * Filtro responsável pelo controle de autenticação e autorização de acesso.
- * <br>Iintercepta todas as requisições da aplicação (mapeada para "/*") e valida se o administrador está autenticado antes de permitir o acesso. 
+ * <br>Iintercepta todas as requisições da aplicação (mapeada para "/*") e verifica se o usuário possui uma sessão válida.
  * <ul>
- *   <li>Permite livre acesso ao login.</li>
+ *   <li>Permite livre acesso ao login e à ação de autenticação.</li>
  *   <li>Permite acesso a recursos estáticos (CSS, JS, imagens, ícones, etc).</li>
- *   <li>Bloqueia qualquer tentativa de acesso sem sessão válida de administrador.</li>
- *   <li>Redireciona para <b>login.jsp?expired=true</b> quando a sessão expira ou o usuário não está autenticado.</li>
+ *   <li>Bloqueia qualquer tentativa de acesso sem usuário autenticado.</li>
+ *   <li>Redireciona para a página de login com indicação de sessão expirada.</li>
  * </ul>
  */
 @WebFilter("/*")
 public class AuthFilter implements Filter {
     
 	/**
-     * Método principal do filtro. Intercepta todas as requisições HTTP.
+     * Intercepta todas as requisições HTTP e decide se a requisição deve continuar ou ser bloqueada.
+     *
+     * @param req objeto {@link ServletRequest}.
+     * @param res objeto {@link ServletResponse}.
+     * @param chain cadeia de filtros.
+     *
+     * @throws IOException erro de I/O.
+     * @throws ServletException erro de servlet.
      */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -36,13 +43,14 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         
-        // Libera forwards e páginas de erro internos do container
+        // Libera forwards internos e páginas de erro do container.
         DispatcherType dispatcherType = request.getDispatcherType();
         if (dispatcherType == DispatcherType.FORWARD || dispatcherType == DispatcherType.ERROR) {
             chain.doFilter(req, res);
             return;
         }
 
+        // Verifica se o acesso deve ser permitido.
         if (shouldAllowAccess(request)) {
             chain.doFilter(req, res);
         } else {
@@ -51,19 +59,28 @@ public class AuthFilter implements Filter {
     }
     
     /**
-     * Verifica se a requisição deve ter acesso permitido.
-     */
+    * Determina se a requisição atual pode prosseguir.
+    * O acesso é permitido se:
+    * - for um recurso público.
+    * - o usuário estiver autenticado.
+    *
+    * @param request requisição HTTP.
+    * @return true se o acesso for permitido, false caso contrário.
+    */
     private boolean shouldAllowAccess(HttpServletRequest request) {
         return isPublicResource(request) || isUserLoggedIn(request);
     }
     
     /**
      * Verifica se é um recurso público (login, logout, auth) ou recurso estático (css, js e imagens).
-     */    
+     * 
+     * @param request requisição HTTP.
+     * @return true se for um recurso público.
+     */
     private boolean isPublicResource(HttpServletRequest request) {
     	String uri = request.getRequestURI().substring(request.getContextPath().length());
 
-    	// libera login, logout, auth e todos os recursos estáticos
+    	// Libera página de login, autenticação, logout e todos os recursos estáticos.
         return uri.equals("/login")
             || uri.equals("/action/doLogin")
             || uri.equals("/doLogout")
@@ -71,18 +88,25 @@ public class AuthFilter implements Filter {
     }
         
     /**
-     * Verifica se usuário está logado.
+     * Verifica se existe um usuário autenticado na sessão.
+     *
+     * @param request requisição HTTP.
+     * @return true se houver sessão válida com usuário logado.
      */
     private boolean isUserLoggedIn(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         return session != null && session.getAttribute(Consts.USER_LOGGED) != null;
     }
-    
+   
     /**
-     * Trata acesso negado: redireciona para login.
-     */    
+     * Trata acesso não autorizado.
+     * Redireciona o usuário para a página de login, indicando que a sessão expirou ou não existe.
+     *
+     * @param request requisição HTTP.
+     * @param response resposta HTTP.
+     * @throws IOException erro de redirecionamento.
+     */
     private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect(request.getContextPath() + "/login?expired=true");
     }
-
 }

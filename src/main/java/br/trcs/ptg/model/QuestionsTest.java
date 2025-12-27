@@ -9,46 +9,83 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * Questões sorteadas que compõem determinado teste
+ * Entidade JPA que representa o relacionamento entre testes e questões sorteadas.
+ * Cada registro indica que uma determinada questão faz parte de um teste específico.
  */
 @Entity
 @Table(name = "questions_test")
 public class QuestionsTest {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "testId", nullable = false)
-	private Test testId;
-	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "questionId", nullable = false)
-	private Question questionId;
+    /**
+     * Identificador único do relacionamento.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * Teste ao qual a questão pertence.
+     * Relacionamento muitos-para-um:
+     * várias questões podem compor o mesmo teste.
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "testId", nullable = false)
+    private Test testId;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * Questão associada ao teste.
+     * Relacionamento muitos-para-um:
+     * uma mesma questão pode aparecer em vários testes.
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "questionId", nullable = false)
+    private Question questionId;
 
-	public Test getTestId() {
-		return testId;
-	}
+    /**
+     * @return id do relacionamento.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setTestId(Test testId) {
-		this.testId = testId;
-	}
+    /**
+     * Define o identificador do registro.
+     *
+     * @param id identificador.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Question getQuestionId() {
-		return questionId;
-	}
+    /**
+     * @return teste associado.
+     */
+    public Test getTestId() {
+        return testId;
+    }
 
-	public void setQuestionId(Question questionId) {
-		this.questionId = questionId;
-	}
+    /**
+     * Define o teste associado.
+     *
+     * @param testId teste.
+     */
+    public void setTestId(Test testId) {
+        this.testId = testId;
+    }
+
+    /**
+     * @return questão associada.
+     */
+    public Question getQuestionId() {
+        return questionId;
+    }
+
+    /**
+     * Define a questão associada.
+     *
+     * @param questionId questão.
+     */
+    public void setQuestionId(Question questionId) {
+        this.questionId = questionId;
+    }
 }

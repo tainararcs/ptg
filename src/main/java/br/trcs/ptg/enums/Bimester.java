@@ -1,23 +1,13 @@
 package br.trcs.ptg.enums;
 
+/** 
+ * Enum que representa os bimestres do ano letivo.
+*/
 public enum Bimester {
 	
-	FIRST_BIMESTER("Primeiro Bimestre"),
-	SECOND_BIMESTER("Segundo Bimestre"),
-	THIRD_BIMESTER("Terceiro Bimestre"),
-	FOURTH_BIMESTER("Quarto Bimestre");
-	
-	private String bimester;
-
-	private Bimester(String bimester) {
-		this.bimester = bimester;
-	}
-
-	public String getBimester() {
-		return bimester;
-	}
-
-	public void setBimester(String bimester) {
-		this.bimester = bimester;
-	}
+	// Bimestres escolalrees.
+	FIRST_BIMESTER,
+	SECOND_BIMESTER,
+	THIRD_BIMESTER,
+	FOURTH_BIMESTER;
 }

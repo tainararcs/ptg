@@ -1,28 +1,55 @@
 package br.trcs.ptg.utils;
 
+
+/** 
+* Classe utilitária responsável por centralizar constantes utilizadas em toda a aplicação.
+*
+* O uso dessa classe evita:
+* - strings "hardcoded"
+* - duplicação de valores
+* - erros de digitação em nomes de páginas, ações e atributos
+*
+* Todos os campos são públicos, estáticos e imutáveis.
+*/
 public class Consts {	
 	
+	/**
+     * Construtor privado para impedir a instanciação da classe.
+     */
 	private Consts() {}
 	
-	public static final Integer NUMBER_QUESTIONS = 3; 
+	/**
+	 * Caminho base da localização das JSPs.
+	 */
+	public static final String VIEWS_PATH = "/WEB-INF/views/";
 	
+	 /**
+     * Quantidade padrão de questões geradas em um teste.
+     */
+	public static final Integer NUMBER_QUESTIONS = 5; 
+	
+	/**
+     * Nome do atributo de sessão que armazena o usuário logado.
+     */
 	public static final String USER_LOGGED = "userLogged";
 	
-	// Atributos
+	/**
+	 * Atributos de Request.
+	 */
 	public static final String ERROR = "error";
 	public static final String MSG = "msg";
-	public static final String RETURN = "returnPage";
-	public static final String INFO = "infoType";
-	public static final String SUBJECT_INFO = "subject";
-	public static final String TOPIC_INFO = "topic";
    
-	//
+	/**
+	 * Componentes JSP comuns.
+	 */
 	public static final String MENU_JSP = "/WEB-INF/views/menu.jsp";
 	public static final String HEADER_JSP = "/WEB-INF/views/header.jsp";
 	public static final String FOOTER_JSP = "/WEB-INF/views/footer.jsp";
 	public static final String MESSAGE_JSP = "/WEB-INF/views/message.jsp";
   
-	// JSPs principais
+	/**
+	 *  Páginas JSPs principais.
+	 */
 	public static final String LOGIN_PAGE = "login";
 	public static final String HOME_PAGE = "home";
 	public static final String ADD_QUESTION_PAGE = "addquestion";
@@ -32,7 +59,9 @@ public class Consts {
 	public static final String ADD_TEST_PAGE = "addtest";
 	public static final String SHOW_REPORT_PAGE = "showreport";
   
-	// Redirecionamentos
+	/**
+	 *  Redirecionamentos
+	 */
 	public static final String REDIRECT_LOGIN_PAGE = "redirect:login";
 	public static final String REDIRECT_HOME_PAGE = "redirect:home";
 	public static final String REDIRECT_ADD_QUESTION_PAGE = "redirect:addquestion";
@@ -46,7 +75,9 @@ public class Consts {
 	public static final String REDIRECT_PREPARE_TESTS_LOGIC = "redirect:action:prepareAddTests";
 	public static final String REDIRECT_EXPORT_PDF_LOGIC = "redirect:action:exportPDF";
 
-	// Lógica
+	/**
+     * Ações executadas pelos controllers/servlets.
+     */
 	public static final String LOGIN_LOGIC = "doLogin";
 	public static final String LOGOUT_LOGIC = "doLogout";
 	public static final String ADD_QUESTION_LOGIC = "addQuestion";
@@ -61,7 +92,9 @@ public class Consts {
 	public static final String PREPARE_TESTS_LOGIC = "prepareAddTests";
 	public static final String EXPORT_PDF_LOGIC = "exportPDF";
 	
-	// Ações
+	/**
+     * Endpoints utilizados nas requisições da aplicação (rotas HTTP).
+     */
 	public static final String ACTION_LOGIN = "action/doLogin";
 	public static final String ACTION_LOGOUT = "action/doLogout";
 	public static final String ACTION_ADD_QUESTION = "action/addQuestion";

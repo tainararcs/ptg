@@ -13,76 +13,156 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Entidade JPA que representa uma questão (pergunta) do sistema.
+ * Uma questão está associada a:
+ * - uma disciplina (Subject).
+ * - uma matéria (Topic).
+ * - um conjunto de alternativas (OptionsQuestion).
+ */
 @Entity
 @Table(name = "questions")
 public class Question {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(nullable = false, columnDefinition = "TEXT")
-	private String statement; // Enunciado
-	
-	@OneToMany(mappedBy = "questionId", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    /**
+     * Identificador único da questão, com valor gerado automaticamente pelo banco de dados.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    /**
+     * Enunciado da questão.
+     */
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String statement;
+
+    /**
+     * Lista de alternativas associadas à questão.
+     * Relacionamento um-para-muitos:
+     * uma questão pode possuir várias alternativas.
+     *
+     * - mappedBy: a chave estrangeira está no lado da entidade OptionsQuestion.
+     */
+    @OneToMany(mappedBy = "questionId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OptionsQuestion> optionsList;
-	
+
+    /**
+     * Observações adicionais sobre a questão. Campo opcional.
+     */
     private String obs;
-	
+
+    /**
+     * Disciplina à qual a questão pertence.
+     * Relacionamento muitos-para-um:
+     * várias questões podem pertencer à mesma disciplina.
+     */
     @ManyToOne(optional = false)
     @JoinColumn(name = "subjectId", nullable = false)
     private Subject subjectId;
 
+    /**
+     * Matéria a qual a questão está associada.
+     * Relacionamento muitos-para-um:
+     * várias questões podem pertencer ao mesmo tópico.
+     */
     @ManyToOne(optional = false)
     @JoinColumn(name = "topicId", nullable = false)
     private Topic topicId;
 
-    
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * @return id da questão.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * Define o identificador da questão.
+     *
+     * @param id identificador da questão.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getStatement() {
-		return statement;
-	}
+    /**
+     * @return enunciado da questão.
+     */
+    public String getStatement() {
+        return statement;
+    }
 
-	public void setStatement(String statement) {
-		this.statement = statement;
-	}
+    /**
+     * Define o enunciado da questão.
+     *
+     * @param statement texto do enunciado.
+     */
+    public void setStatement(String statement) {
+        this.statement = statement;
+    }
 
-	public List<OptionsQuestion> getOptionsList() {
-		return optionsList;
-	}
+    /**
+     * @return lista de alternativas da questão.
+     */
+    public List<OptionsQuestion> getOptionsList() {
+        return optionsList;
+    }
 
-	public void setOptionsList(List<OptionsQuestion> optionsList) {
-		this.optionsList = optionsList;
-	}
+    /**
+     * Define a lista de alternativas da questão.
+     *
+     * @param optionsList lista de alternativas.
+     */
+    public void setOptionsList(List<OptionsQuestion> optionsList) {
+        this.optionsList = optionsList;
+    }
 
-	public String getObs() {
-		return obs;
-	}
+    /**
+     * @return observações adicionais da questão.
+     */
+    public String getObs() {
+        return obs;
+    }
 
-	public void setObs(String obs) {
-		this.obs = obs;
-	}
+    /**
+     * Define observações adicionais da questão.
+     *
+     * @param obs observações
+     */
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
 
-	public Subject getSubjectId() {
-		return subjectId;
-	}
+    /**
+     * @return disciplina associada à questão.
+     */
+    public Subject getSubjectId() {
+        return subjectId;
+    }
 
-	public void setSubjectId(Subject subjectId) {
-		this.subjectId = subjectId;
-	}
+    /**
+     * Define a disciplina associada à questão.
+     *
+     * @param subjectId disciplina.
+     */
+    public void setSubjectId(Subject subjectId) {
+        this.subjectId = subjectId;
+    }
 
-	public Topic getTopicId() {
-		return topicId;
-	}
+    /**
+     * @return matéria associada à questão.
+     */
+    public Topic getTopicId() {
+        return topicId;
+    }
 
-	public void setTopicId(Topic topicId) {
-		this.topicId = topicId;
-	}
+    /**
+     * Define a matéroa associada à questão.
+     *
+     * @param topicId matéria.
+     */
+    public void setTopicId(Topic topicId) {
+        this.topicId = topicId;
+    }
 }
