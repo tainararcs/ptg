@@ -6,8 +6,8 @@ VALUES (1, 'Mariana', '1569984', 'admin');
 -- Usuários comuns (Senha: 2222)
 INSERT INTO users (id, name, password, profile)
 VALUES 
-    (2, 'Joao', '1539200', 'user'),
-    (3, 'Ana', '1539200', 'user');
+    (2, 'Maria', '1539200', 'user'),
+    (3, 'Marcela', '1539200', 'user');
 
 
 -- Disciplinas

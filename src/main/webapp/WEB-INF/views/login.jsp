@@ -25,6 +25,8 @@
 	</head>
 
 	<body>
+		<jsp:include page="${Consts.MESSAGE_JSP}"/>
+		
 	    <div class="login-wrapper">
 	        <!-- Seção Visual Esquerda -->
 	        <div class="login-visual">
