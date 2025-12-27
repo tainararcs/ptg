@@ -120,7 +120,7 @@ nav {
 /* Rodapé */
 .main-footer {
     padding: var(--spacing-2xl) var(--spacing-xl);
-    margin: 6.5rem auto 0;
+    margin: auto auto -1rem;
     overflow: hidden;
     text-align: center;
 }
