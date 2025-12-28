@@ -1,13 +1,8 @@
-
--- Administrador (Senha: 3333)
-INSERT INTO users (id, name, password, profile)
-VALUES (1, 'Mariana', '1569984', 'admin');
-
 -- Usuários comuns (Senha: 2222)
-INSERT INTO users (id, name, password, profile)
+INSERT INTO users (name, password, profile)
 VALUES 
-    (2, 'Maria', '1539200', 'user'),
-    (3, 'Marcela', '1539200', 'user');
+    ('Maria', '1539200', 'user'),
+    ('Marcela', '1539200', 'user');
 
 
 -- Disciplinas
