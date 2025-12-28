@@ -17,17 +17,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * 
+ * Componente Spring responsável por listar todos os testes (Tests) no sistema.
+ * Implementa a interface {@link Logic}.
  */
 @Component(Consts.LIST_TEST_LOGIC)
 public class ListTests implements Logic {
 
+    /**
+     * Método principal que processa a requisição para listar testes.
+     * 
+     * @param request  HttpServletRequest usado para acessar a sessão do usuário.
+     * @param response HttpServletResponse usado para enviar a resposta JSON.
+     * @return null, pois a resposta JSON é escrita diretamente no {@link HttpServletResponse.
+     * 
+     * @throws ServletException em caso de erro de servlet.
+     * @throws IOException em caso de erro de I/O.
+     */
     @Override
-    public String service(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public String service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    	// Recupera usuário logado.
         User userLogged = (User) request.getSession().getAttribute(Consts.USER_LOGGED);
 
+        // Se não houver usuário logado, retorna 401.
         if (userLogged == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return null;
@@ -36,11 +48,13 @@ public class ListTests implements Logic {
         TestDAO dao = new TestDAO();
         List<Test> testsList;
 
-        if ("admin".equalsIgnoreCase(userLogged.getProfile()))
+        // Diferencia admin de usuário comum.
+        if ("admin".equalsIgnoreCase(userLogged.getProfile())) 
             testsList = dao.searchAllTests();
-        else
+        else 
             testsList = dao.searchUserTests(userLogged);
 
+        // Mapeia dados relevantes do teste para JSON.
         List<Map<String, Object>> result = testsList.stream().map(t -> {
             Map<String, Object> map = new java.util.HashMap<>();
             map.put("date", t.getDate() != null ? t.getDate().toString() : "");
@@ -51,13 +65,13 @@ public class ListTests implements Logic {
             return map;
         }).toList();
 
+        // Envia a resposta JSON.
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-	
-		ObjectMapper mapper = new ObjectMapper();
-		response.getWriter().write(mapper.writeValueAsString(result));
-
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(result));
+        
         return null;
     }
 }

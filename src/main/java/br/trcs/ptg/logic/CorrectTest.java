@@ -23,9 +23,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Componente Spring responsável por corrigir um teste realizado pelo usuário. Implementa a interface {@link Logic}.
+ * Calcula a pontuação, registra o teste no banco e retorna o resultado detalhado em JSON.
+ */
 @Component(Consts.CORRECT_TEST_LOGIC)
 public class CorrectTest implements Logic {
 
+    /**
+     * Executa a correção do teste, calcula a pontuação e retorna os resultados.
+     * 
+     * @param request  HttpServletRequest usado para processar a requisição.
+     * @param response HttpServletResponse usado para enviar a resposta JSON.
+     * @return null, pois a resposta JSON é escrita diretamente no {@link HttpServletResponse}.
+     * 
+     * @throws ServletException em caso de erro de servlet.
+     * @throws IOException em caso de erro de I/O.
+     */
     @Override
     public String service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
@@ -41,10 +55,10 @@ public class CorrectTest implements Logic {
             return null;
         }
 
-        // Corrige o teste usando.
+        // Calcula pontuação.
         int score = correctTest(request);
 
-        // Cria o objeto Test.
+        // Cria objeto Test e salva no banco.
         Subject subject = new DAO<>(Subject.class).findById(subjectId);
         Test test = new Test();
         test.setDate(LocalDate.now());
@@ -53,24 +67,23 @@ public class CorrectTest implements Logic {
         test.setBimester(bimester);
         test.setNumberCorrectAnswers(score);
 
-        // Salva o teste antes de armazenar as questões.
         DAO<Test> testDao = new DAO<>(Test.class);
         testDao.insert(test);
 
-        // Salva o vínculo Test e Questions.
-        String[] questionIds = questions.stream().map(q -> String.valueOf(q.getId())) .toArray(String[]::new);
+        // Salva vínculo entre Test e Questions.
+        String[] questionIds = questions.stream().map(q -> String.valueOf(q.getId())).toArray(String[]::new);
         saveQuestions(test, questionIds);
 
-        // Cria lista detalhada de questões para envio ao front-end.
+        // Monta lista detalhada de questões com respostas do usuário.
         List<Map<String, Object>> questionResults = new ArrayList<>();
         for (Question q : questions) {
             List<Map<String, Object>> options = new ArrayList<>();
             if (q.getOptionsList() != null) {
                 for (OptionsQuestion opt : q.getOptionsList()) {
                     options.add(Map.of(
-                        "id", opt.getId(),
-                        "text", opt.getText(),
-                        "correct", opt.getCorrect()
+                            "id", opt.getId(),
+                            "text", opt.getText(),
+                            "correct", opt.getCorrect()
                     ));
                 }
             }
@@ -80,18 +93,18 @@ public class CorrectTest implements Logic {
             if (ans != null) userAnswerId = Integer.valueOf(ans);
 
             questionResults.add(Map.of(
-                "id", q.getId(),
-                "statement", q.getStatement(),
-                "userAnswerId", userAnswerId,
-                "options", options
+                    "id", q.getId(),
+                    "statement", q.getStatement(),
+                    "userAnswerId", userAnswerId,
+                    "options", options
             ));
         }
 
-        // Monta e envia JSON para o front-end.
+        // Envia JSON de resultado final.
         Map<String, Object> result = Map.of(
-            "score", score,
-            "total", questions.size(),
-            "questions", questionResults
+                "score", score,
+                "total", questions.size(),
+                "questions", questionResults
         );
 
         response.setContentType("application/json");
@@ -102,48 +115,47 @@ public class CorrectTest implements Logic {
     }
 
     /**
-	 * Corrige o teste e retorna a quantidade de acertos.
-	 * @param request
-	 * @return número de questões corretas
-	 */
-	private Integer correctTest(HttpServletRequest request) {
-		int score = 0;
-		DAO<OptionsQuestion> dao = new DAO<>(OptionsQuestion.class);
-		
-		for (String key : request.getParameterMap().keySet()) {
-			if (key.startsWith("answer_")) {
-				String[] values = request.getParameterValues(key);
-				Integer optionId = Integer.valueOf(values[0]);
-				OptionsQuestion option = dao.findById(optionId);
-				
-				if (option != null && option.getCorrect()) {
-					score++;
-				}
-			}
-		}
-		
-		return score;
-	}
-    
+     * Corrige o teste baseado nas respostas do usuário e retorna a pontuação.
+     *
+     * @param request HttpServletRequest contendo os parâmetros de resposta do usuário.
+     * @return número de respostas corretas.
+     */
+    private Integer correctTest(HttpServletRequest request) {
+        int score = 0;
+        DAO<OptionsQuestion> dao = new DAO<>(OptionsQuestion.class);
+
+        for (String key : request.getParameterMap().keySet()) {
+            if (key.startsWith("answer_")) {
+                Integer optionId = Integer.valueOf(request.getParameterValues(key)[0]);
+                OptionsQuestion option = dao.findById(optionId);
+
+                if (option != null && option.getCorrect()) score++;
+            }
+        }
+
+        return score;
+    }
+
     /**
-	 * Salva as questões vinculadas ao teste.
-	 * @param test
-	 * @param questionIds
-	 */
-	private void saveQuestions(Test test, String[] questionIds) {
-		DAO<QuestionsTest> questionTestDao = new DAO<>(QuestionsTest.class);
-		DAO<Question> questionDao = new DAO<>(Question.class);
-		DAO<Test> testDao = new DAO<>(Test.class);
-		
-		// Recarrega o Test na sessão atual.
-		Test managedTest = testDao.findById(test.getId());
-		
-		for (String questionId : questionIds) {
-			Question question = questionDao.findById(Integer.valueOf(questionId));
-			QuestionsTest questionsTest = new QuestionsTest();
-			questionsTest.setTestId(managedTest);
-			questionsTest.setQuestionId(question);
-			questionTestDao.insert(questionsTest);
-		}
-	}
+     * Salva as questões vinculadas a um teste no banco de dados.
+     *
+     * @param test Test objeto que foi realizado.
+     * @param questionIds array de IDs das questões.
+     */
+    private void saveQuestions(Test test, String[] questionIds) {
+        DAO<QuestionsTest> questionTestDao = new DAO<>(QuestionsTest.class);
+        DAO<Question> questionDao = new DAO<>(Question.class);
+        DAO<Test> testDao = new DAO<>(Test.class);
+
+        // Recarrega o Test no contexto gerenciado.
+        Test managedTest = testDao.findById(test.getId());
+
+        for (String questionId : questionIds) {
+            Question question = questionDao.findById(Integer.valueOf(questionId));
+            QuestionsTest questionsTest = new QuestionsTest();
+            questionsTest.setTestId(managedTest);
+            questionsTest.setQuestionId(question);
+            questionTestDao.insert(questionsTest);
+        }
+    }
 }

@@ -19,44 +19,53 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
- * 
+ * Componente Spring responsável por gerar um relatório em PDF dos testes realizados.
+ * Implementa a inteface {@link Logic}.
  */
 @Component(Consts.EXPORT_PDF_LOGIC)
 public class ExportPDF implements Logic {
 
+    // Constantes de formatação do PDF.
     private static final float MARGIN = 50;
     private static final float START_Y = 780;
     private static final float ROW_HEIGHT = 20;
     private static final float FONT_SIZE = 10;
 
     private static final String[] HEADER = {"Data", "Usuário", "Disciplina", "Bimestre", "Acertos", "%"};
-
     private static final float[] COL_X = {50, 120, 220, 300, 410, 480};
 
+    /**
+     * Método principal que processa a requisição HTTP para exportar os testes em PDF.
+     * Recupera o usuário logado, consulta os testes correspondentes e monta um PDF.
+     * 
+     * @param request  HttpServletRequest para obter o usuário logado da sessão.
+     * @param response HttpServletResponse para enviar o PDF como anexo.
+     * @return null, pois o PDF é escrito diretamente no {@link HttpServletResponse}.
+     * 
+     * @throws IOException em caso de erro durante a criação ou escrita do PDF.
+     */
     @Override
     public String service(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        // Recupera usuário logado da sessão.
         User userLogged = (User) request.getSession().getAttribute(Consts.USER_LOGGED);
-
         if (userLogged == null) {
+            // Redireciona para login se não houver usuário logado.
             response.sendRedirect("login");
             return null;
         }
 
+        // Consulta testes do banco de dados.
         TestDAO dao = new TestDAO();
-        List<Test> tests;
+        List<Test> tests = "admin".equalsIgnoreCase(userLogged.getProfile()) 
+                            ? dao.searchAllTests() 
+                            : dao.searchUserTests(userLogged);
 
-        if ("admin".equalsIgnoreCase(userLogged.getProfile())) 
-            tests = dao.searchAllTests();
-        else 
-            tests = dao.searchUserTests(userLogged);
-
+        // Configura resposta HTTP como PDF.
         response.setContentType("application/pdf");
-        response.setHeader(
-            "Content-Disposition",
-            "attachment; filename=relatorio-testes.pdf"
-        );
+        response.setHeader("Content-Disposition", "attachment; filename=relatorio-testes.pdf");
 
+        // Criação do documento PDF.
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.A4);
             doc.addPage(page);
@@ -64,15 +73,15 @@ public class ExportPDF implements Logic {
             PDPageContentStream cs = new PDPageContentStream(doc, page);
             float y = START_Y;
 
-            // Título
+            // Título do relatório.
             cs.beginText();
             cs.setFont(PDType1Font.HELVETICA_BOLD, 16);
             cs.newLineAtOffset(MARGIN, y);
             cs.showText("Relatório de Testes");
             cs.endText();
-
             y -= 40;
 
+            // Caso não haja testes.
             if (tests == null || tests.isEmpty()) {
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 12);
@@ -85,10 +94,12 @@ public class ExportPDF implements Logic {
                 return null;
             }
 
+            // Desenha cabeçalho.
             y = drawLine(cs, y, HEADER, PDType1Font.HELVETICA_BOLD);
 
+            // Preenche linhas com informações dos testes.
             for (Test t : tests) {
-                if (y < 80) {
+                if (y < 80) { // Nova página caso chegue ao fim da página.
                     cs.close();
                     page = new PDPage(PDRectangle.A4);
                     doc.addPage(page);
@@ -116,13 +127,16 @@ public class ExportPDF implements Logic {
     }
 
     /**
+     * Desenha uma linha de texto no PDF.
+     * Cada elemento do array {@code data} é posicionado nas colunas definidas por {@link #COL_X}.
      * 
-     * @param cs
-     * @param y
-     * @param data
-     * @param font
-     * @return
-     * @throws IOException
+     * @param cs   PDPageContentStream para escrever no PDF
+     * @param y    posição vertical inicial
+     * @param data array de strings a serem exibidas na linha
+     * @param font fonte utilizada para a linha
+     * @return nova posição vertical após desenhar a linha
+     * 
+     * @throws IOException em caso de erro durante a escrita no PDF
      */
     private float drawLine(PDPageContentStream cs, float y, String[] data, PDType1Font font) throws IOException {
         cs.setFont(font, FONT_SIZE);
