@@ -73,7 +73,7 @@
 	        </li>
 	
 	        <li class="menu-item">
-	            <a href="${pageContext.request.contextPath}/${Consts.ACTION_GENERATE_REPORT}">
+	            <a href="${pageContext.request.contextPath}/${Consts.SHOW_REPORT_PAGE}">
 	                <i class="bi bi-card-list"></i><span>Gerar Relatório</span>
 	            </a>
 	        </li>

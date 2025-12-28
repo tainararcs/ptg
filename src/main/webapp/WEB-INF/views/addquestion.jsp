@@ -65,7 +65,7 @@
 		<script>
 		    const CONTEXT_PATH = "${pageContext.request.contextPath}";
 		</script>
-		<script src="${pageContext.request.contextPath}/resources/js/requestTopic.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/requestSubject.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/requestTopics.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/requestSubjects.js"></script>
 	</body>
 </html>

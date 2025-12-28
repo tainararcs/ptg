@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import br.trcs.ptg.dao.TestDAO;
 import br.trcs.ptg.model.Test;
+import br.trcs.ptg.model.User;
 import br.trcs.ptg.utils.Consts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +18,9 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+/**
+ * 
+ */
 @Component(Consts.EXPORT_PDF_LOGIC)
 public class ExportPDF implements Logic {
 
@@ -31,11 +36,26 @@ public class ExportPDF implements Logic {
     @Override
     public String service(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        @SuppressWarnings("unchecked")
-        List<Test> tests = (List<Test>) request.getSession().getAttribute("tests");
+        User userLogged = (User) request.getSession().getAttribute(Consts.USER_LOGGED);
+
+        if (userLogged == null) {
+            response.sendRedirect("login");
+            return null;
+        }
+
+        TestDAO dao = new TestDAO();
+        List<Test> tests;
+
+        if ("admin".equalsIgnoreCase(userLogged.getProfile())) 
+            tests = dao.searchAllTests();
+        else 
+            tests = dao.searchUserTests(userLogged);
 
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=relatorio-testes.pdf");
+        response.setHeader(
+            "Content-Disposition",
+            "attachment; filename=relatorio-testes.pdf"
+        );
 
         try (PDDocument doc = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.A4);
@@ -53,7 +73,6 @@ public class ExportPDF implements Logic {
 
             y -= 40;
 
-            // Sem dados
             if (tests == null || tests.isEmpty()) {
                 cs.beginText();
                 cs.setFont(PDType1Font.HELVETICA, 12);
@@ -66,7 +85,6 @@ public class ExportPDF implements Logic {
                 return null;
             }
 
-            // Header
             y = drawLine(cs, y, HEADER, PDType1Font.HELVETICA_BOLD);
 
             for (Test t : tests) {
@@ -79,12 +97,12 @@ public class ExportPDF implements Logic {
                 }
 
                 String[] row = {
-                    String.valueOf(t.getDate()),
+                    t.getDate() != null ? t.getDate().toString() : "",
                     t.getUserID().getName(),
                     t.getSubjectId().getName(),
-                    String.valueOf(t.getBimester()),
+                    t.getBimester().toString(),
                     String.valueOf(t.getNumberCorrectAnswers()),
-                    (t.getNumberCorrectAnswers() * 100 / 5) + "%"
+                    (t.getNumberCorrectAnswers() * 100 / Consts.NUMBER_QUESTIONS) + "%"
                 };
 
                 y = drawLine(cs, y, row, PDType1Font.HELVETICA);
@@ -97,6 +115,15 @@ public class ExportPDF implements Logic {
         return null;
     }
 
+    /**
+     * 
+     * @param cs
+     * @param y
+     * @param data
+     * @param font
+     * @return
+     * @throws IOException
+     */
     private float drawLine(PDPageContentStream cs, float y, String[] data, PDType1Font font) throws IOException {
         cs.setFont(font, FONT_SIZE);
 

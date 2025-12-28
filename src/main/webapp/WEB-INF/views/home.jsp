@@ -69,7 +69,7 @@
 		            <p>Crie testes a partir de disciplinas, conteúdos e bimestres cadastrados</p>
 		        </a>
 		
-		        <a href="${pageContext.request.contextPath}/${Consts.ACTION_GENERATE_REPORT}" class="card">
+		        <a href="${pageContext.request.contextPath}/${Consts.SHOW_REPORT_PAGE}" class="card">
 		            <i class="bi bi-postcard-fill"></i>
 		            <h3>Gerar Relatório</h3>
 		            <p>Visualize o desempenho e progresso através de relatórios dos testes realizados</p>

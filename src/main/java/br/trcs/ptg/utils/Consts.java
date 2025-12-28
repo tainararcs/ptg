@@ -82,7 +82,7 @@ public class Consts {
 	public static final String ADD_USER_LOGIC = "addUser";
 	public static final String ADD_TEST_LOGIC = "addTest";
 	public static final String GENERATE_TEST_LOGIC = "generateTest";
-	public static final String GENERATE_REPORT_LOGIC = "generateReport";
+	public static final String LIST_TEST_LOGIC = "listTests";
 	public static final String LIST_TOPIC_LOGIC = "listTopic";
 	public static final String LIST_USER_LOGIC = "listUsers";
 	public static final String LIST_QUESTION_LOGIC = "listQuestions";
@@ -100,7 +100,7 @@ public class Consts {
 	public static final String ACTION_ADD_TOPIC = "action/addTopic";
 	public static final String ACTION_ADD_USER = "action/addUser";
 	public static final String ACTION_ADD_TEST = "action/addTest";
-	public static final String ACTION_GENERATE_REPORT = "action/generateReport";
+	public static final String ACTION_LIST_TEST = "action/listTests";
 	public static final String ACTION_GENERATE_TEST = "action/generateTest";
 	public static final String ACTION_LIST_TOPIC = "action/listTopic";
 	public static final String ACTION_LIST_SUBJECT = "action/listSubject";
