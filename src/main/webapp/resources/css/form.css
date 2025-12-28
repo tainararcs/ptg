@@ -77,6 +77,7 @@ body {
     min-height: 100vh;
     padding-left: var(--sidebar-width);
     box-sizing: border-box;
+    overflow-x: hidden; /* Remove rolagem horizontal */
 }
 
 /* Título da página */
@@ -209,7 +210,6 @@ body h2 {
 }
 
 .form-container > div > label:hover {
-    border-color: var(--primary-blue-light);
     background: var(--gray-50);
 }
 
@@ -241,7 +241,6 @@ body h2 {
 }
 
 .options > div:hover {
-    border-color: var(--primary-blue-light);
     background: var(--gray-50);
 }
 
@@ -303,7 +302,6 @@ body h2 {
 }
 
 .question:hover {
-    border-color: var(--primary-blue-light);
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
@@ -385,7 +383,7 @@ body > table,
     animation: fadeIn 0.6s ease-out;
     max-width: 1100px;
     width: 100%;
-    margin: var(--spacing-2xl) auto;
+    margin: var(--spacing-2xl) -100px var(--spacing-2xl) auto;
 }
 
 
@@ -534,7 +532,8 @@ body > p,
     border-radius: var(--radius-xl);
     text-align: center;
     box-shadow: var(--shadow-xl);
-    margin-top: var(--spacing-2xl);
+    max-width: 950px;
+    margin: var(--spacing-md) auto var(--spacing-2xl);
 }
 
 .final-score h3 {
@@ -556,7 +555,7 @@ body > p,
     font-size: 3rem;
     font-weight: 700;
     margin: var(--spacing-lg) 0;
-    color: var(--white);
+    color: var(--white) !important;
 }
 
 .btn-new-test {

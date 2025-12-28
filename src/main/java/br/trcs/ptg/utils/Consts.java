@@ -82,6 +82,7 @@ public class Consts {
 	public static final String ADD_USER_LOGIC = "addUser";
 	public static final String ADD_TEST_LOGIC = "addTest";
 	public static final String GENERATE_TEST_LOGIC = "generateTest";
+	public static final String CORRECT_TEST_LOGIC = "correctTest";
 	public static final String LIST_TEST_LOGIC = "listTests";
 	public static final String LIST_TOPIC_LOGIC = "listTopic";
 	public static final String LIST_USER_LOGIC = "listUsers";
