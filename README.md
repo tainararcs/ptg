@@ -203,13 +203,25 @@ URL: jdbc:postgresql://localhost:5432/ptg
 Usuário: <seu_usuario>
 Senha: <sua_senha>
 ```
-#### 4. Execute o Projeto 
-#### 5. Acesse a Aplicação (http://localhost:8080/PraticeTestGenerator)
+#### 5. Execute o sql abaixo:
+```
+CREATE TABLE users (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(80) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    profile VARCHAR(30) NOT NULL
+);
 
-| USERNAME |  SENHA  |
-|----------|---------|
-|  Mariana |  3333   |
-|   Maria  |  2222   |
+-- Administrador (Senha: 3333)
+INSERT INTO users (name, password, profile)
+VALUES ('<nome-de-sua-escolha>', '1569984', 'admin');
+```
+#### 6. Execute o Projeto 
+#### 7. Acesse a Aplicação (http://localhost:8080/PraticeTestGenerator)
+
+|      USERNAME      |  SENHA  |
+|--------------------|---------|
+|  <nome-escolhido>  |  3333   |
 
 #### 6. Certifique-se de que as tabelas foram criadas pelo Hibernate
 #### 7. No terminal ou pgAdmin, execute o arquivo `database/backup.sql`:
