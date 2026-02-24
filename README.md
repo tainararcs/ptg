@@ -3,6 +3,9 @@
 
 O PTG é um **sistema web** para a criação e administração de testes (provas) práticas para usuários/estudantes. 
 
+<div align="center">
+  <img src="assets/login.png" alt="RPC">
+</div>
 Ele foi idealizado para suportar:
 
 - Criação e edição de questões e provas.
@@ -15,10 +18,18 @@ Este projeto é construído como **aplicação web tradicional “WAR”** empac
 
 ### - Funcionalidades Principais 
 
+<div align="center">
+  <img src="assets/home.png" alt="RPC">
+</div>
+
 #### Gerenciamento de Questões
 - Cadastro completo de questões com múltiplas alternativas
 - Definição de resposta correta e observações explicativas
 - Categorização e organização de questões por matéria
+
+<div align="center">
+  <img src="assets/topic.png" alt="RPC">
+</div>
 
 #### Criação e Administração de Provas
 - Montagem de provas selecionando questões do banco
@@ -35,6 +46,10 @@ Este projeto é construído como **aplicação web tradicional “WAR”** empac
 - Histórico de desempenho por usuário
 - Relatórios estatísticos por prova
 - Exportação de resultados em PDF
+
+<div align="center">
+  <img src="assets/report.png" alt="RPC">
+</div>
 
 #### Gerenciamento de Usuários
 - Autenticação e controle de acesso
